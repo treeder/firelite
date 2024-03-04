@@ -1,0 +1,2 @@
+# firelite
+Lightweight firebase libraries

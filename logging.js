@@ -1,6 +1,4 @@
-import { nanoid } from "nanoid";
 import { verifyIdToken, getAccessToken } from "web-auth-library/google"
-import { globals } from './globals.js'
 import { APIError } from "api";
 
 export class Logging {

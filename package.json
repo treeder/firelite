@@ -1,6 +1,6 @@
 {
   "name": "firelite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lightweight firebase libraries",
   "main": "firestore.js",
   "scripts": {

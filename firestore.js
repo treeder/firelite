@@ -7,19 +7,6 @@ export class Firestore {
         this.options = options
         if (!(this.options.gCreds || this.options.creds)) throw new Error("Must provide your Google credentials")
         this.apiURL = `https://firestore.googleapis.com/v1/projects/${this.options.gCreds.project_id}/databases/(default)/documents`
-
-        // const firestoreAPI = new API({
-        //     apiURL: `https://firestore.googleapis.com/v1/projects/${this.options.gCreds.project_id}/databases/(default)/documents`,
-        //     getToken: async () => {
-        //         const token = await getAccessToken({
-        //             credentials: this.options.gCreds, // GCP service account key (JSON)
-        //             scope: "https://www.googleapis.com/auth/cloud-platform",
-        //             waitUntil: c.waitUntil, // allows the token to be refreshed in the background
-        //         });
-        //         return token
-        //     }
-        // })
-        // this.api = firestoreAPI.fetch.bind(firestoreAPI) // can't remember why I had to do this
     }
 
     async fetch(url, opts = {}) {
@@ -44,7 +31,8 @@ export class Firestore {
     }
 
     fillFields(thing, doc) {
-        console.log("FILL FIELDS:", doc)
+        // console.log("FILL FIELDS:", doc)
+        if (!doc.fields) return // can happen with empty map value
         for (const [key, value] of Object.entries(doc.fields)) {
             thing[key] = this.getValue(value)
         }
@@ -67,7 +55,7 @@ export class Firestore {
             let a = []
             if (!value.arrayValue.values) return a
             for (const v of value.arrayValue.values) {
-                console.log("ARRAY VALUE:", v)
+                // console.log("ARRAY VALUE:", v)
                 a.push(this.getValue(v))
             }
             return a
@@ -92,7 +80,7 @@ export class Firestore {
     }
 
     toValue(q2) {
-        console.log("TO VALUE:", q2, typeof q2)
+        // console.log("TO VALUE:", q2, typeof q2)
         if (q2 instanceof Date) return { timestampValue: q2 }
         if (typeof q2 === 'string') return { stringValue: q2 }
         if (typeof q2 === 'number') return { integerValue: q2 }
